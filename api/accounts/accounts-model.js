@@ -1,21 +1,28 @@
+//db wrapper
+const db = require('../../data/db-config')
+
 const getAll = () => {
-  // DO YOUR MAGIC
+  // SELECT * FROM accounts; - raw sql
+  // returns a promise so w/e uses this function needs to use async/await .then/.catch
+  return db('accounts')
 }
 
 const getById = id => {
-  // DO YOUR MAGIC
+  // SELECT * FROM accounts WHERE id = 1;
+  return db('accounts').where('id', id).first()
+  // 💡 we need first() otherwise we get an array
 }
 
 const create = account => {
-  // DO YOUR MAGIC
+  //
 }
 
 const updateById = (id, account) => {
-  // DO YOUR MAGIC
+  //
 }
 
 const deleteById = id => {
-  // DO YOUR MAGIC
+  //
 }
 
 module.exports = {
