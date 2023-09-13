@@ -1,9 +1,11 @@
+// these return a promise so w/e uses this function needs to use async/await .then/.catch - like in mw and router
+
 //db wrapper
 const db = require('../../data/db-config')
 
+
 const getAll = () => {
   // SELECT * FROM accounts; - raw sql
-  // returns a promise so w/e uses this function needs to use async/await .then/.catch
   return db('accounts')
 }
 
@@ -13,8 +15,10 @@ const getById = id => {
   // 💡 we need first() otherwise we get an array
 }
 
-const create = account => {
-  //
+const create = ({name, budget}) => {
+  // INSERT INTO accounts (name, budget) VALUES ('testing', '100');
+  const [id] = db('accounts').insert({ name, budget })
+  return getById(id)
 }
 
 const updateById = (id, account) => {
