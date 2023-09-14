@@ -26,7 +26,8 @@ const updateById = (id, account) => {
 }
 
 const deleteById = id => {
-  //
+  // DELETE FROM accounts WHERE id = 1;
+  return db('accounts').where('id', id).del()
 }
 
 module.exports = {

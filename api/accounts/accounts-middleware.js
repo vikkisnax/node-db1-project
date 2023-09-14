@@ -1,4 +1,4 @@
-const Account = require('./accounts-model');
+const Accounts = require('./accounts-model');
 const db = require('../../data/db-config')
 
 exports.checkAccountPayload = (req, res, next) => {
@@ -46,9 +46,9 @@ exports.checkAccountNameUnique = async (req, res, next) => {
 exports.checkAccountId = async(req, res, next) => {
   //need async/await try/catch
   try{
-    const accountId = await Account.getById(req.params.id);
-    if(accountId){
-      req.accountId = accountId
+    const account = await Accounts.getById(req.params.id);
+    if(account){
+      req.account = account
       next()
     } else {
       next({
