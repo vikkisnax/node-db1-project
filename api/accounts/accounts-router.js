@@ -14,13 +14,21 @@ router.get('/',
   }
 })
 
-router.get('/:id', mw.checkAccountId, async (req, res) => {
-    res.json(req.accountId)
+router.get('/:id', mw.checkAccountId, async (req, res, next) => {
+    try{
+      const account = await Accounts.getById(req.params.id)
+      res.json(account)
+    }catch(err){
+      next(err)
+    }
 })
 
 router.post('/', mw.checkAccountNameUnique, mw.checkAccountPayload, async (req, res, next) => {
     try{
-      const newAccount = await Accounts.create(req.body)
+      const newAccount = await Accounts.create({
+        name: req.body.name.trim(),
+        budget: req.body.budget,
+      })
       res.status(201).json(newAccount)
     } catch(err){
       next(err)
@@ -29,16 +37,14 @@ router.post('/', mw.checkAccountNameUnique, mw.checkAccountPayload, async (req, 
 
 router.put('/:id', 
   mw.checkAccountId,
-  mw.checkAccountNameUnique, 
   mw.checkAccountPayload, 
   async (req, res, next) => {
     const updated = await Accounts.updateById(req.params.id, req.body);
-    res.json(updated)
-    try{
-      res.json('put account by id')
-    } catch(err){
+    try {
+      res.json(updated)
+    }catch(err){
       next(err)
-  }
+    }
 });
 
 router.delete('/:id', mw.checkAccountId,
@@ -53,7 +59,6 @@ router.delete('/:id', mw.checkAccountId,
 
 //error handling mw 
 router.use((err, req, res, next) => { // eslint-disable-line
-  // DO YOUR MAGIC
   res.status(err.status || 500).json({
     message: err.message,
   })

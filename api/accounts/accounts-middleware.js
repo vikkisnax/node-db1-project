@@ -3,7 +3,7 @@ const db = require('../../data/db-config')
 
 exports.checkAccountPayload = (req, res, next) => {
   const error = { status: 400 }
-  const {name, budget} = req.body;
+  const { name, budget } = req.body
   if (name === undefined || budget === undefined){
     error.message = 'name and budget are required'
   } else if (typeof name !== 'string') {
@@ -28,11 +28,12 @@ exports.checkAccountNameUnique = async (req, res, next) => {
   try{
     const existing = await db('accounts')
       .where('name', req.body.name.trim())
-      .first();
+      .first()
+
     if(existing){
       next({
           status: 400, 
-          message: "that name is taken",
+          message: 'that name is taken'
       })
     }else{
       next()
@@ -45,7 +46,7 @@ exports.checkAccountNameUnique = async (req, res, next) => {
 
 exports.checkAccountId = async(req, res, next) => {
   //need async/await try/catch
-  try{
+  try {
     const account = await Accounts.getById(req.params.id);
     if(account){
       req.account = account
@@ -53,7 +54,7 @@ exports.checkAccountId = async(req, res, next) => {
     } else {
       next({
         status: 404,
-        message: 'id does not exist'
+        message: 'account not found'
       })
     }
   } catch (err){
