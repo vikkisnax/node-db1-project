@@ -1,4 +1,5 @@
 const router = require('express').Router();
+//ig doing this instead of listing out the mw functions
 const mw = require('./accounts-middleware');
 const Accounts = require('./accounts-model')
 
