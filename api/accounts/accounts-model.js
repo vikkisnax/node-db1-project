@@ -11,14 +11,14 @@ const getAll = () => {
 
 const getById = id => {
   // SELECT * FROM accounts WHERE id = 1;
-  return db('accounts').where('id', id).first()
   // 💡 we need first() otherwise we get an array
+  return db('accounts').where('id', id).first();
 }
 
-const create = ({name, budget}) => {
-  // INSERT INTO accounts (name, budget) VALUES ('testing', '100');
-  const [id] = db('accounts').insert({ name, budget })
-  return getById(id)
+const create = async (account) => {
+  // INSERT INTO accounts (name, budget) VALUES ('foo', 100);
+  const [id] = await db('accounts').insert(account);
+  return getById(id);
 }
 
 const updateById = (id, account) => {
